@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" type="text/css" href="resources/styles/chatList.css"/>
+        <title>My Chats</title>
+    </head>
+    <body>
+        <div class="head">
+            <img src="resources/images/logo.png" class="logo"/>
+
+            <div class="pageName">
+                <p class="pageNameText" th:text="${user.getName()}">
+                    Name
+                </p>
+
+                <p class="logout">
+                    <a href="/login">Logout</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="body">
+            <div class="navPanel">
+                <div class="panelChat">
+                    <img src="resources/images/chat.png" class="panelLogo"/>
+                </div>
+
+                <a class="panelFriends" href="/friendList">
+                    <img src="resources/images/friends.png" class="panelLogo"/>
+                </a>
+
+                <a class="panelNotify" href="/notifyList">
+                    <img src="resources/images/notify.png" class="panelLogo"/>
+                </a>
+            </div>
+
+            <div class="chatList">
+                <div class="chatListHead">
+                    <div class="friendListHeadName">My Chats</div>
+                </div>
+
+                <div class="chatListBody" th:if="${'user.getChatList().getSize()'>'0'}"  th:with="dataViewController=${T(ru.veezeday.dev.model.DataViewController)}">
+                    <form class="newChatForm" th:method="GET" th:action="@{/chatEditInvite}">
+                        <input hidden type="text" name="userChatId" th:value="${-1}">
+                        <input class="newChatButton" type="submit" name="action" value="New">
+                    </form>
+
+                    <div class="chats">
+                        <div class="chatBlock" th:each="chat : ${user.getChatList()}" th:if="${chat!=null}">
+                            <div class="delimiter" th:if="${user.getChatList().indexOf(chat)!=0}"></div>
+
+                            <div class="chatView">
+                                <a class="chatName" th:href="@{/chat(id=${user.getChatList().indexOf(chat)})}">
+                                    <div class="chatNameText">
+                                        <div th:text="${chat.getName()}">Chat name</div>
+                                    </div>
+                                    <div class="accept">
+                                        <!--<div class="lastMessage" th:if="${'chat.getMessages().getSize()'>'0'}" th:text="${chat.getMessages().get(chat.getMessages().size()-1).getContent()}">
+                                            Last message
+                                        </div>-->
+                                    </div>
+                                </a>
+
+                                <div class="input">
+                                    <form th:method="GET" th:action="@{/chatEdit}" class="editForm" th:if="${user.getId().equals(chat.getAdminId())}">
+                                        <input hidden type="text" name="userChatId" th:value="${user.getChatList().indexOf(chat)}">
+                                        <input type="submit" name="action" value="Edit" class="edit">
+                                    </form>
+                                    <form th:method="GET" th:action="@{/chatInfo}" class="editForm" th:if="${!(user.getId().equals(chat.getAdminId()))}">
+                                        <input hidden type="text" name="userChatId" th:value="${user.getChatList().indexOf(chat)}">
+                                        <input type="submit" name="action" value="Info" class="edit">
+                                    </form>
+                                    <form th:method="POST" th:action="@{/chatList}" class="editForm">
+                                        <input hidden type="text" name="userChatId" th:value="${user.getChatList().indexOf(chat)}">
+                                        <input class="decline" name="action" type="submit" value="Leave">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

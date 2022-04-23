@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" type="text/css" href="resources/styles/login.css"/>
+        <title>Login</title>
+    </head>
+    <body>
+        <div class="head">
+            <img src="resources/images/logo.png" class="logo"/>
+
+            <div class="pageName">
+                <p class="pageNameText">JChat</p>
+            </div>
+        </div>
+
+        <div class="body">
+            <div class="bodyContent">
+                <div class="loginHead">
+                    <p class="loginHeadText">Login</p>
+                </div>
+
+                <form th:method="POST" th:action="@{/login}" class="form">
+                    <div class="nameContainer">
+                        <label for="name" class="nameLabel">Name</label>
+                        <input name="name" type="text" id="name" class="nameInput"/>
+                    </div>
+
+                    <div class="passwordContainer">
+                        <label for="password" class="passwordLabel">Password</label>
+                        <input name="password" type="password" id="password" class="passwordInput"/>
+                    </div>
+
+                    <input type="submit" value="Login" class="loginButton"/>
+
+                    <p class="text">
+                        For the first time?
+                        <a href="/register">Register</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

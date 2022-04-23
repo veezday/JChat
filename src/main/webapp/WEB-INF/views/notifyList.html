@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" type="text/css" href="resources/styles/notifyList.css"/>
+        <title>My Notifies</title>
+    </head>
+    <body>
+        <div class="head">
+            <img src="resources/images/logo.png" class="logo"/>
+
+            <div class="pageName">
+                <p class="pageNameText" th:text="${user.getName()}">
+                    Name
+                </p>
+
+                <p class="logout">
+                    <a href="/login">Logout</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="body">
+            <div class="navPanel">
+                <a class="panelChat" href="/chatList">
+                    <img src="resources/images/chat.png" class="panelLogo"/>
+                </a>
+
+                <a class="panelFriends" href="/friendList">
+                    <img src="resources/images/friends.png" class="panelLogo"/>
+                </a>
+
+                <div class="panelNotify">
+                    <img src="resources/images/notify.png" class="panelLogo"/>
+                </div>
+            </div>
+
+            <div class="notifyList">
+                <div class="notifyListHead">
+                    <div class="notifyListHeadName">My Notifies</div>
+                </div>
+
+                <div class="notifyListBody">
+                    <div th:if="${'user.getNotifyList().getSize()'>'0'}" th:each="notify : ${user.getNotifyList()}" th:with="typeOfNotify=${T(ru.veezeday.dev.model.TypeOfNotify)}">
+                        <div class="delimiter"></div>
+                        <div class="notify" th:if="${notify.getTypeOfNotify().equals(typeOfNotify.FRIEND_INVITE) || notify.getTypeOfNotify().equals(typeOfNotify.CHAT_INVITE)}">
+                            <div class="notifyName" th:text="${notify.getContent()}">Notify Text</div>
+                            <div class="input">
+                                <form th:method="POST" th:action="@{/notifyList}">
+                                    <input hidden type="text" name="notifyId" th:value="${notify.getId()}">
+                                    <input class="accept" name="action" type="submit" value="Accept">
+                                </form>
+                                <form th:method="POST" th:action="@{/notifyList}">
+                                    <input hidden type="text" name="notifyId" th:value="${notify.getId()}">
+                                    <input class="decline" name="action" type="submit" value="Decline">
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="notify" th:if="${notify.getTypeOfNotify().equals(typeOfNotify.NOTIFY)}">
+                            <div class="notifyName" th:text="${notify.getContent()}">Notify Text</div>
+                            <div class="input">
+                                <form th:method="POST" th:action="@{/notifyList}">
+                                    <input hidden type="text" name="notifyId" th:value="${notify.getId()}">
+                                    <input class="accept" name="action" type="submit" value="Ok">
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="notify" th:if="${notify.getTypeOfNotify().equals(typeOfNotify.DISINVITE)}">
+                            <div class="notifyName" th:text="${notify.getContent()}">Notify Text</div>
+                            <div class="input">
+                                <form th:method="POST" th:action="@{/notifyList}">
+                                    <input hidden type="text" name="notifyId" th:value="${notify.getId()}">
+                                    <input class="accept" name="action" type="submit" value="Disinvite">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

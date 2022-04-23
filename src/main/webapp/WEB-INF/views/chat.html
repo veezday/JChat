@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" type="text/css" href="resources/styles/chat.css"/>
+        <title>User</title>
+    </head>
+    <body>
+        <div class="head">
+            <img src="resources/images/logo.png" class="logo"/>
+
+            <div class="pageName">
+                <p class="pageNameText" th:text="${user.getName()}">
+                    Name
+                </p>
+
+                <p class="logout">
+                    <a href="/login">Logout</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="body">
+            <div class="navPanel">
+                <a class="panelChat" href="/chatList">
+                    <img src="resources/images/chat.png" class="panelLogo"/>
+                </a>
+
+                <a class="panelFriends" href="/friendList">
+                    <img src="resources/images/friends.png" class="panelLogo"/>
+                </a>
+
+                <a class="panelNotify" href="/notifyList">
+                    <img src="resources/images/notify.png" class="panelLogo"/>
+                </a>
+            </div>
+
+            <div class="chat" th:with="dataViewController=${T(ru.veezeday.dev.model.DataViewController)}">
+                <div class="chatHead">
+                    <div class="friendName">
+                        <div class="friendNameText" th:each="chatUser : ${dataViewController.getChatUsers(chat.getUsers())}" th:if="${!user.getName().equals(chatUser.getName())}">
+                            <div th:text="${chatUser.getName()}">Friend Name</div>
+
+                            <div th:if="${!(chatUser.getId().equals(chat.getUsers().get(chat.getUsers().size()-1)))}">,&#160;</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chatBody">
+                    <div class="messages" th:each="message : ${chat.getMessages()}">
+                        <div class="myMessage" th:if="${message.getUserId()==user.getId()}">
+                            <div class="myMessageText">
+                                <div class="myMessageHead">
+                                    <div class="myDate" th:text="${message.getDate()}">date</div>
+
+                                    <div class="myName" th:text="${user.getName()}">Name</div>
+                                </div>
+
+                                <div class="myText" th:text="${message.getContent()}">My message</div>
+                            </div>
+                        </div>
+
+                        <div class="hisMessage" th:if="${message.getUserId()!=user.getId()}">
+                            <div class="hisMessageText">
+                                <div class="hisMessageHead">
+                                    <div class="hisName" th:text="${dataViewController.getUser(message.getUserId()).getName()}">Name</div>
+
+                                    <div class="hisDate" th:text="${message.getDate()}">date</div>
+                                </div>
+
+                                <div class="hisText" th:text="${message.getContent()}">My message</div>
+                            </div>
+                        </div>
+
+                        <div class="notify" th:if="${message.getUserId()=='-1'}">
+                            <div class="notify">
+                                <div class="notifyMessageText">
+                                    <div class="notifyMessageHead">
+                                        <div class="date" th:text="${message.getDate()}">date</div>
+                                    </div>
+
+                                    <div class="text" th:text="${message.getContent()}">Message</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <form class="chatForm">
+                    <input class="chatFormInput" type="text" placeholder="Enter the message..." >
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

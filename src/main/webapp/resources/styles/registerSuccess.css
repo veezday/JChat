@@ -1,0 +1,146 @@
+body {
+    font-family: "romic";
+    background-color: #666666;
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    color: #ffffff;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+p {
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}
+
+input {
+    font-family: "romic";
+    width: 160px;
+    height: 24px;
+    font-size: 1.6rem;
+    padding: 2px 9px 2px 9px;
+    color: #6a3368
+}
+
+.head {
+    display: flex;
+    justify-content: space-between;
+    background-color: #6a3368;
+    height: 100px;
+}
+
+.logo {
+    object-fit: cover;
+    height: inherit;
+}
+
+.pageName {
+    font-family: "romic";
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-basis: 100%;
+    margin-right: 15%
+}
+
+.pageNameText {
+    font-size: 4.3rem;
+}
+
+.body {
+    display: flex;
+    justify-content: center;
+    flex-basis: 100%;
+    align-items: center;
+}
+
+.bodyContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 400px;
+    height: 400px;
+    margin-bottom: 10%;
+    background-color: #6a3368;
+}
+
+.loginHead {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginHeadText {
+    font-size: 2.4rem;
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 1.6rem;
+}
+
+.nameContainer {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.passwordContainer {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.loginButton {
+    font-family: "romic";
+    width: 150px;
+    height: 50px;
+    font-size: 1.6rem;
+    color: #ffffff
+    border-style: none;
+}
+
+.loginButton:hover {
+    border-style: none;
+}
+
+.loginButton:hover {
+    background-color: #602d5e;
+}
+
+.loginButton:active {
+    background-color: #50274f;
+}
+
+@font-face {
+	font-family: "pixel";
+	src: local("pixel"), url("../fonts/16pixeltimesbold.ttf") format("truetype");
+	font-style: normal;
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: "romic";
+	src: local("romic"), url("../fonts/_romic_medium.otf"), format("opentype");
+	font-style: normal;
+	font-weight: normal;
+}
+
+@media all and (max-width: 400px) {
+    input {
+        width: 50%;
+    }
+}

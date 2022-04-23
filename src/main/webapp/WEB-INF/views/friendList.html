@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+  <head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" type="text/css" href="resources/styles/friendList.css"/>
+	<title>My Friends</title>
+  </head>
+  <body>
+	<div class="head">
+	  <img src="resources/images/logo.png" class="logo"/>
+
+	  <div class="pageName">
+		<p class="pageNameText" th:text="${user.getName()}">
+		  Name
+		</p>
+
+		<p class="logout">
+		  <a href="/login">Logout</a>
+		</p>
+	  </div>
+	</div>
+
+	<div class="body">
+	  <div class="navPanel">
+		<a class="panelChat" href="chatList">
+		  <img src="resources/images/chat.png" class="panelLogo"/>
+		</a>
+
+		<div class="panelFriends" th:if="${searchResult.isEmpty()}">
+		  <img src="resources/images/friends.png" class="panelLogo"/>
+		</div>
+
+		<a class="panelFriendsA" href="friendList" th:if="${!(searchResult.isEmpty())}">
+		  <img src="resources/images/friends.png" class="panelLogo"/>
+		</a>
+
+		<a class="panelNotify" href="/notifyList">
+		  <img src="resources/images/notify.png" class="panelLogo"/>
+		</a>
+	  </div>
+
+	  <div class="friendList">
+		<div class="friendListHead">
+		  <div class="friendListHeadName" th:if="${searchResult.isEmpty()}">My Friends</div>
+		  <div class="friendListHeadName" th:if="${!(searchResult.isEmpty())}">Search Result</div>
+		</div>
+
+		<form th:method="GET" th:action="@{/friendList}" class="friendSearch">
+		  <input type="search" id="request" name="request" class="search" autocomplete="off" placeholder="Search a new friend..." th:value="${request}">
+		</form>
+
+		<div class="friendListBody" th:if="${!(searchResult.isEmpty())}" th:with="dataViewController=${T(ru.veezeday.dev.model.DataViewController)}">
+		  <div th:each="result : ${searchResult}">
+			<div class="delimiter" th:if="${searchResult.indexOf(result)!=0}"></div>
+			<div class="friend">
+			 <div class="friendName" th:text="${result.getName()}">Search Friend Name</div>
+			  <div class="input">
+				<form th:method="POST" th:action="@{/friendList}">
+				  <input hidden type="text" name="friendAOD" th:value="${result.getId()}">
+				  <input class="accept" name="action" type="submit" value="Add">
+				</form>
+			 </div>
+			</div>
+		  </div>
+		</div>
+
+		<div class="friendListBody" th:if="${searchResult.isEmpty()}" th:with="dataViewController=${T(ru.veezeday.dev.model.DataViewController)}">
+		  <div th:if="${'user.getFriendList().getSize()'>'0'}" th:each="friendId : ${user.getFriendList()}">
+			<div class="delimiter" th:if="${user.getFriendList().indexOf(friendId)!=0}"></div>
+
+			<div class="friend" th:with="friend=${dataViewController.getUser(friendId)}">
+			  <div class="friendName" th:text="${friend.getName()}">Friend Name</div>
+			  <div class="input">
+				<form th:method="POST" th:action="@{/friendList}">
+				  <input hidden type="text" name="friendAOD" th:value="${friendId}">
+				  <input type="submit" name="action" class="accept" value="Delete">
+				</form>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </body>
+</html>

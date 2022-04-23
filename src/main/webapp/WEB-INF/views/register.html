@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" type="text/css" href="/resources/styles/register.css"/>
+        <title>Register</title>
+    </head>
+    <body>
+        <div class="head">
+            <img src="/resources/images/logo.png" class="logo"/>
+
+            <div class="pageName">
+                <p class="pageNameText">JChat</p>
+            </div>
+        </div>
+
+        <div class="body">
+            <div class="bodyContent">
+                <div class="loginHead">
+                    <p class="loginHeadText">Register</p>
+                </div>
+
+                <form th:method="POST" th:action="@{/register}" th:object="${user}" class="form">
+                    <div class="nameContainer">
+                        <label for="name" class="nameLabel">Name</label>
+                        <input type="text" th:field="*{name}" id="name" class="nameInput" autocomplete="off"/>
+                    </div>
+
+                    <div class="passwordContainer">
+                        <label for="password" class="passwordLabel">Password</label>
+                        <input type="password" th:field="*{password}" id="password" class="passwordInput" autocomplete="off"/>
+                    </div>
+
+                    <input type="submit" value="Register" class="loginButton"/>
+
+                    <p class="text">
+                        Already registered?
+                        <a href="/login">Login</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

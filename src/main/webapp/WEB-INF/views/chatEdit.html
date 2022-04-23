@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" type="text/css" href="resources/styles/chatEdit.css"/>
+        <title>My Chats</title>
+    </head>
+    <body>
+        <div class="head">
+            <img src="resources/images/logo.png" class="logo"/>
+
+            <div class="pageName">
+                <p class="pageNameText" th:text="${user.getName()}">
+                    Name
+                </p>
+
+                <p class="logout">
+                    <a href="/login">Logout</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="body">
+            <div class="navPanel">
+                <a class="panelChat" href="/chatList">
+                    <img src="resources/images/chat.png" class="panelLogo"/>
+                </a>
+
+                <a class="panelFriends" href="/friendList">
+                    <img src="resources/images/friends.png" class="panelLogo"/>
+                </a>
+
+                <a class="panelNotify" href="/notifyList">
+                    <img src="resources/images/notify.png" class="panelLogo"/>
+                </a>
+            </div>
+
+            <div class="chatList">
+                <div class="chatListBody" th:with="dataViewController=${T(ru.veezeday.dev.model.DataViewController)}">
+                    <div class="chatListHead">
+                        <div class="friendListHeadName">Chat edit</div>
+                    </div>
+
+                    <div class="delimiter"></div>
+
+                    <div class="field">
+                        <label>Chat name</label>
+                        <form class="changeName" th:method="POST" th:action="@{/chatEdit}">
+                            <input hidden type="text" name="action" value="Change name">
+                            <input hidden type="text" name="chatId" th:value="${chat.getId()}">
+                            <input class="name" type="text" id="param" th:value="${chat.getName()}">
+                            <input class="changeNameButton" type="submit" value="Save">
+                        </form>
+                    </div>
+
+                    <form th:method="GET" th:action="@{/chatEditInvite}">
+                        <input hidden type="text" name="userChatId" th:value="${user.getChatList().indexOf(chat)}">
+                        <input class="fieldsDelimiter" type="submit" value="Invite friends">
+                    </form>
+
+                    <div class="chatUsers">
+                        <div class="chatUserBlock" th:each="chatUserId : ${chat.getUsers()}" th:if="${!(chatUserId==user.getId())}">
+                            <div class="delimiter"></div>
+
+                            <div class="chatUser" th:with="chatUser=${user.get(chatUserId)}">
+                                <div class="chatUserName" th:text="${chatUser.getName()}">Chat user name</div>
+                                <form class="input" th:method="POST" th:action="@{/chatEdit}">
+                                    <input hidden type="text" name="chatId" th:value="${chat.getId()}">
+                                    <input hidden type="text" name="param" th:value="${chatUserId}">
+                                    <div class="actionBox">
+                                        <input type="submit" name="action" class="action" value="As admin">
+                                        <input type="submit" name="action" class="action" value="Delete">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
